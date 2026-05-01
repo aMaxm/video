@@ -30,7 +30,7 @@
         }
 
         .container {
-            max-width: 1300px; /* Сделал контейнер чуть шире для сетки */
+            max-width: 1300px;
             margin: 0 auto;
             padding: 0 20px;
         }
@@ -62,7 +62,7 @@
             display: flex;
             align-items: center;
             background: radial-gradient(circle at top left, #1a0f0a 0%, #0c0705 100%);
-            padding: 100px 0 50px; /* Отступы сверху и снизу */
+            padding: 100px 0 50px;
         }
 
         .hero-content {
@@ -101,7 +101,6 @@
             position: relative;
         }
 
-        /* Добавляем декоративный элемент */
         .hero-portfolio::before {
              content: '';
              position: absolute;
@@ -124,7 +123,7 @@
         }
 
         .hero-portfolio-item:nth-child(2) {
-            transform: translateY(40px); /* Смещаем второе видео вниз для динамики */
+            transform: translateY(40px);
         }
         
         .hero-portfolio-item:hover {
@@ -132,10 +131,11 @@
             z-index: 10;
         }
 
-        .hero-portfolio-item iframe {
+        .hero-portfolio-item video, .portfolio-item video {
             width: 100%;
             height: 100%;
-            border: none;
+            object-fit: cover;
+            display: block;
         }
 
         /* --- Sections --- */
@@ -153,10 +153,10 @@
             margin-bottom: 10px;
         }
 
-        /* --- Full Portfolio Section (Optional, if you want more videos below) --- */
+        /* --- Full Portfolio Section (Grid on PC) --- */
          .portfolio-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(3, 1fr); /* Жестко 3 колонки для ПК */
             gap: 30px;
         }
 
@@ -171,14 +171,8 @@
 
         .portfolio-item:hover {
              border-color: var(--gold);
+             transform: translateY(-5px);
         }
-
-        .portfolio-item iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
 
         /* --- Pricing Cards --- */
         .price-grid {
@@ -252,12 +246,43 @@
                 max-width: 600px;
                 margin: 0 auto;
             }
+            .portfolio-grid {
+                grid-template-columns: repeat(2, 1fr); /* 2 колонки на средних экранах */
+            }
         }
 
+        /* Превращаем сетку в слайдер на мобильных телефонах */
         @media (max-width: 768px) {
             section { padding: 60px 0; }
             .price-card.featured { transform: none; }
             .hero-portfolio-item:nth-child(2) { transform: translateY(20px); }
+            
+            .portfolio-grid {
+                display: flex;
+                overflow-x: auto;
+                scroll-snap-type: x mandatory; /* Магнитная прокрутка */
+                gap: 20px;
+                padding-bottom: 30px; /* Место под скроллбар */
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            /* Стилизация ползунка прокрутки для красоты */
+            .portfolio-grid::-webkit-scrollbar {
+                height: 6px;
+            }
+            .portfolio-grid::-webkit-scrollbar-track {
+                background: var(--dark-espresso);
+                border-radius: 10px;
+            }
+            .portfolio-grid::-webkit-scrollbar-thumb {
+                background: var(--gold);
+                border-radius: 10px;
+            }
+
+            .portfolio-item {
+                flex: 0 0 85%; /* Ширина карточки в слайдере */
+                scroll-snap-align: center; /* Центрирование при смахивании */
+            }
         }
     </style>
 </head>
@@ -268,44 +293,43 @@
         <div class="container hero-content">
             <!-- Левая часть: Текст и Кнопка -->
             <div class="hero-text">
-                <h1>Создаём<br><span>Видео</span><span>Которое</span><span>Смотрят</span><span>Миллионы</span></h1>
+                <h1>Нам По Пути <br><span>Экспертный видео монтаж</span></h1>
                 <p class="hero-sub">Маркетинг, который оживает. Автономные сети трафика и премиальный монтаж для сильных экспертов.</p>
                 <a href="#contacts" class="btn-gold">Обсудить проект</a>
             </div>
 
-            <!-- Правая часть: Портфолио сразу на первом экране -->
+            <!-- Правая часть: Портфолио на первом экране -->
             <div class="hero-portfolio">
-                <!-- Видео 1 -->
                 <div class="hero-portfolio-item">
-                    <iframe src="https://www.youtube.com/shorts/vkVcTwxYOOk" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                    <video src="video1.mp4" autoplay muted loop playsinline></video>
                 </div>
-                <!-- Видео 2 -->
                 <div class="hero-portfolio-item">
-                    <iframe src="https://www.youtube.com/embed/jhkVaS2HAwA" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                    <video src="video2.mp4" autoplay muted loop playsinline></video>
                 </div>
             </div>
         </div>
     </section>
 
-     <!-- Дополнительное Портфолио (если видео больше двух) -->
+     <!-- Дополнительное Портфолио (Сетка 3x3 на ПК / Слайдер на мобилке) -->
      <section id="portfolio" style="padding-top: 0;">
         <div class="container">
             <div class="section-header">
                 <h2>Больше работ</h2>
+                <p style="color: var(--text-dim); margin-top: 10px;">Проекты, собравшие миллионы просмотров</p>
             </div>
             
             <div class="portfolio-grid">
-                 <!-- Видео 3 (из твоего списка) -->
-                 <div class="portfolio-item">
-                    <iframe src="https://www.youtube.com/shorts/LEuVl40IGJs" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-                </div>
-                <!-- Место для следующих видео -->
-                 <div class="portfolio-item" style="display: flex; align-items: center; justify-content: center; border-style: dashed; border-color: var(--text-dim); opacity: 0.5;">
-                    <iframe src="https://www.youtube.com/shorts/S8h2z3-7MAY" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-                </div>
-                <div class="portfolio-item" style="display: flex; align-items: center; justify-content: center; border-style: dashed; border-color: var(--text-dim); opacity: 0.5;">
-                    <iframe src="https://www.youtube.com/shorts/C-yZlQXN3rQ" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-                </div>
+                 <div class="portfolio-item"><video src="video3.mp4" autoplay muted loop playsinline></video></div>
+                 <div class="portfolio-item"><video src="video4.mp4" autoplay muted loop playsinline></video></div>
+                 <div class="portfolio-item"><video src="video5.mp4" autoplay muted loop playsinline></video></div>
+                 
+                 <div class="portfolio-item"><video src="video6.mp4" autoplay muted loop playsinline></video></div>
+                 <div class="portfolio-item"><video src="video7.mp4" autoplay muted loop playsinline></video></div>
+                 <div class="portfolio-item"><video src="video8.mp4" autoplay muted loop playsinline></video></div>
+                 
+                 <div class="portfolio-item"><video src="video9.mp4" autoplay muted loop playsinline></video></div>
+                 <div class="portfolio-item"><video src="video10.mp4" autoplay muted loop playsinline></video></div>
+                 <div class="portfolio-item"><video src="video11.mp4" autoplay muted loop playsinline></video></div>
             </div>
         </div>
     </section>
